@@ -1,0 +1,42 @@
+{
+  "name": "polarisdc/exact-online-connector",
+  "description": "Laravel package for Exact Online API connections.",
+  "require": {
+    "php": "^7.4|^8.0",
+    "picqer/exact-php-client": "dev-master",
+    "illuminate/support": "^7.0|^8.0"
+  },
+  "authors": [
+    {
+      "name": "Maarten Waegeman",
+      "email": "maarten.waegeman@polaris-dc.com",
+      "homepage": "https://www.polaris-dc.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "PolarisDC\\Exact\\ExactOnlineConnector\\": "src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "PolarisDC\\Exact\\ExactOnlineConnector\\ExactOnlineServiceProvider"
+      ],
+      "aliases": {
+        "ExactOnlineConnection": "PolarisDC\\Exact\\ExactOnlineConnector\\Facades\\ExactOnlineConnectionFacade"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type" : "vcs",
+      "url" : "git@bitbucket.org:polaris-dc/exact-php-client.git"
+    }
+  ]
+}
