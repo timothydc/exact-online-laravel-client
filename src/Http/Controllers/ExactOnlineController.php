@@ -2,6 +2,8 @@
 
 namespace PolarisDC\Exact\ExactOnlineConnector\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class ExactOnlineController extends Controller
 {
 
