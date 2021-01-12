@@ -44,10 +44,10 @@ class ExactOnlineService
         $connection->setTokenExpires($this->oAuthToken->expires_in);
 
         if ($connection->needsAuthentication()) {
-            throw new Exception('Exact Online Service (Authorization): The Exact client is not authenticated.');
+            throw new Exception('Exact Online Connector: The Exact client is not authenticated.');
         }
 
-        $this->connection->connect();
+        $connection->connect();
 
         return $connection;
     }
@@ -62,15 +62,15 @@ class ExactOnlineService
     public function authorizeClient(): void
     {
         if ($this->clientIsAuthorized()) {
-            logger()->error('Exact Online Service: The client has already been authorized.', ['exactClientId' => $this->exactClientId]);
+            logger()->error('Exact Online Connector: The client has already been authorized.', ['exactClientId' => $this->exactClientId]);
             return;
         }
 
-        logger()->debug('Exact Online Service: Starting Exact Online authorization flow.');
+        logger()->debug('Exact Online Connector: Starting Exact Online authorization flow.');
 
         $connection = $this->initializeConnection();
 
-        logger()->debug('Exact Online Service: Redirecting to Exact Online for authorization.', ['exactClientId' => $this->exactClientId, 'callbackUrl' => $connection->getRedirectUrl()]);
+        logger()->debug('Exact Online Connector: Redirecting to Exact Online for authorization.', ['exactClientId' => $this->exactClientId, 'callbackUrl' => $connection->getRedirectUrl()]);
 
         $connection->redirectForAuthorization();
     }
@@ -85,12 +85,12 @@ class ExactOnlineService
     public function finishAuthorizationClient($authorizationCode): bool
     {
         if ($this->clientIsAuthorized()) {
-            logger()->error('Exact Online Service: The client has already been authorized.', ['exactClientId' => $this->exactClientId, 'authorizationCode' => $authorizationCode]);
+            logger()->error('Exact Online Connector: The client has already been authorized.', ['exactClientId' => $this->exactClientId, 'authorizationCode' => $authorizationCode]);
             return true;
         }
 
         try {
-            logger()->debug('Exact Online Service: Received authorization callback.', ['exactClientId' => $this->exactClientId, 'authorizationCode' => $authorizationCode]);
+            logger()->debug('Exact Online Connector: Received authorization callback.', ['exactClientId' => $this->exactClientId, 'authorizationCode' => $authorizationCode]);
 
             $connection = $this->initializeConnection();
             $connection->setAuthorizationCode($authorizationCode);
@@ -106,10 +106,10 @@ class ExactOnlineService
             $connection->setTokenExpires(0);
             $connection->connect();
 
-            logger()->debug('Exact Online Service: Authorization flow completed successfully.', ['exactClientId' => $this->exactClientId, 'authorizationCode' => $authorizationCode]);
+            logger()->debug('Exact Online Connector: Authorization flow completed successfully.', ['exactClientId' => $this->exactClientId, 'authorizationCode' => $authorizationCode]);
             return true;
         } catch (ApiException $exception) {
-            logger()->error('Exact Online Service: Exception during authorization flow.', ['exactClientId' => $this->exactClientId, 'exception' => $exception]);
+            logger()->error('Exact Online Connector: Exception during authorization flow.', ['exactClientId' => $this->exactClientId, 'exception' => $exception]);
             return false;
         }
     }
@@ -119,7 +119,7 @@ class ExactOnlineService
      */
     public function disconnectClient()
     {
-        logger('Exact Online Service: The Exact client is now disconnected.');
+        logger('Exact Online Connector: The Exact client is now disconnected.');
 
         return $this->oAuthToken->update([
             'access_token' => null,
@@ -174,13 +174,13 @@ class ExactOnlineService
 
     public function aquireAccessTokenLock(Connection $connection)
     {
-        logger('Exact Online Connector: Starting the OAuth access token refresh.', $this->getConnectionInfo());
+        logger('Exact Online Connector: Starting the OAuth access token refresh.', $this->getConnectionInfo($connection));
 
         try {
             $this->atomicLock->block(self::CACHE_LOCK_TIMEOUT);
 
             // Lock acquired after waiting maximum of 30 seconds...
-            logger('Exact Online Connector: Acquired the atomic refresh lock.', $this->getConnectionInfo());
+            logger('Exact Online Connector: Acquired the atomic refresh lock.', $this->getConnectionInfo($connection));
 
         } catch (LockTimeoutException $exception) {
             throw new ApiException('Exact Online Connector: Could not acquire the atomic lock to refresh the OAuth tokens, the lock timed out.');
@@ -232,8 +232,7 @@ class ExactOnlineService
             'lock_id' => $this->atomicLock->owner(),
             'access_token' => $connection->getAccessToken(),
             'refresh_token' => $connection->getRefreshToken(),
-            'expires_in' => $connection->getTokenExpires(),
-            'class' => $connection ? get_class($connection) : null
+            'expires_in' => $connection->getTokenExpires()
         ];
     }
 }
