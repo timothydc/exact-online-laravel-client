@@ -70,7 +70,7 @@ class ExactOnlineService
 
         $connection = $this->initializeConnection();
 
-        logger()->debug('Exact Online Service: Redirecting to Exact Online for authorization.', ['exactClientId' => $this->exactClientId, 'callbackUrl' => $this->exactRedirectUrl]);
+        logger()->debug('Exact Online Service: Redirecting to Exact Online for authorization.', ['exactClientId' => $this->exactClientId, 'callbackUrl' => $connection->getRedirectUrl()]);
 
         $connection->redirectForAuthorization();
     }
