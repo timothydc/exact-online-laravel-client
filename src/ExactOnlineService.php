@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PolarisDC\Exact\ExactOnlineConnector\Services;
+namespace PolarisDC\Exact\ExactOnlineConnector;
 
 use Illuminate\Contracts\Cache\Lock;
 use Illuminate\Contracts\Cache\LockTimeoutException;
