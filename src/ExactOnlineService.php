@@ -7,7 +7,6 @@ use Illuminate\Contracts\Cache\Lock;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
 use Picqer\Financials\Exact\ApiException;
-use PolarisDC\Exact\ExactOnlineConnector\Connection;
 use PolarisDC\Exact\ExactOnlineConnector\Models\OAuthToken;
 
 class ExactOnlineService
