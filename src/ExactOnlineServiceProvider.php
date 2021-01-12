@@ -17,7 +17,8 @@ class ExactOnlineServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/exact-online-connector.php', 'exact-online');
 
-        $this->app->singleton('exact-online-connection', fn ($app) => new ExactOnlineConnection());
+        $this->app->singleton(ExactOnlineService::class, fn () => new ExactOnlineService());
+        $this->app->singleton(Connection::class, fn ($app) => $app->make(ExactOnlineService::class)->getConnection());
 
         //$this->app->singleton();
     }
