@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace PolarisDC\Exact\ExactOnlineConnector;
 
+use Exception;
 use Illuminate\Contracts\Cache\Lock;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
