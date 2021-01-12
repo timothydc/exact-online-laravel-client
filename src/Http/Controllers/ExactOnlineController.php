@@ -3,7 +3,7 @@
 namespace PolarisDC\Exact\ExactOnlineConnector\Http\Controllers;
 
 use Illuminate\Http\Request;
-use PolarisDC\Exact\ExactOnlineConnector\Services\ExactOnlineService;
+use PolarisDC\Exact\ExactOnlineConnector\ExactOnlineService;
 
 class ExactOnlineController extends Controller
 {
@@ -16,7 +16,8 @@ class ExactOnlineController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param Request            $request
+     * @param ExactOnlineService $service
      * @return string
      */
     public function callbackAuthorizeExactConnection(Request $request, ExactOnlineService $service)
