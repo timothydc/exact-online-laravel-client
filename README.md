@@ -52,7 +52,7 @@ There are 3 routes available
 - /exact-online/disconnect (this disconnects a client)
 
 ### Dependency Injection
-You can get connection via Dependency Injection.
+You can get a thread safe connection via Dependency Injection.
 ```php
 use PolarisDC\Exact\ExactOnlineConnector\Connection;
 
@@ -67,6 +67,17 @@ class Classname
 ```
 
 Then you can use the Picqer library to CRUD Exact Online records.
+
+```php
+// Add a product in Exact
+$item = new Item($connection);
+$item->Code = $productcode;
+$item->CostPriceStandard = $costprice;
+$item->Description = $name;
+$item->IsSalesItem = true;
+$item->SalesVatCode = 'VH';
+$item->save();
+```
 
 ## Credits
 
