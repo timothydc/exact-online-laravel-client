@@ -30,12 +30,5 @@ return [
     /**
      * The Language used in language specific description fields.
      */
-    'language_code' => env('EXACT_LANGUAGE_CODE', 'NL-BE'),
-
-    /**
-     * This option controls the method which is used to store the OAuth token.
-     *
-     * Supported: "database", "file"
-     */
-    'token_storage_method' => env('EXACT_TOKEN_STORAGE', 'database'),
+    'language_code' => env('EXACT_LANGUAGE_CODE', ''),
 ];

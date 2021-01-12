@@ -3,7 +3,7 @@
   "description": "Laravel package for Exact Online API connections.",
   "require": {
     "php": "^7.4|^8.0",
-    "picqer/exact-php-client": "dev-master",
+    "picqer/exact-php-client": "^3.26.0",
     "illuminate/support": "^7.0|^8.0"
   },
   "authors": [
@@ -32,11 +32,5 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
-  "repositories": [
-    {
-      "type" : "vcs",
-      "url" : "git@bitbucket.org:polaris-dc/exact-php-client.git"
-    }
-  ]
+  "prefer-stable": true
 }

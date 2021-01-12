@@ -3,12 +3,15 @@
 namespace PolarisDC\Exact\ExactOnlineConnector\Http\Controllers;
 
 use Illuminate\Http\Request;
+use PolarisDC\Exact\ExactOnlineConnector\Services\ExactOnlineService;
 
 class ExactOnlineController extends Controller
 {
 
-    public function authorizeExactConnection()
+    public function authorizeExactConnection(ExactOnlineService $service)
     {
+        $service->authorizeClient();
+
         return 'De connectie met Exact is reeds geauthenticeerd!';
     }
 
@@ -16,15 +19,16 @@ class ExactOnlineController extends Controller
      * @param Request $request
      * @return string
      */
-    public function callbackAuthorizeExactConnection(Request $request)
+    public function callbackAuthorizeExactConnection(Request $request, ExactOnlineService $service)
     {
-        $success =  true;
+        $success = $service->finishAuthorizationClient($request->get('code'));
 
         return $success ? 'De connectie met Exact is succesvol geauthenticeerd!' : 'De connectie met Exact is mislukt :( .';
     }
 
-    public function disconnectExactConnection()
+    public function disconnectExactConnection(ExactOnlineService $service)
     {
+        $service->disconnectClient();
         return 'De connectie met Exact is succesvol gedisconnect!';
     }
 }
