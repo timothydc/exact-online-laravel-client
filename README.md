@@ -69,6 +69,8 @@ class Classname
 Then you can use the Picqer library to CRUD Exact Online records.
 
 ```php
+use Picqer\Financials\Exact\Item;
+
 // Add a product in Exact
 $item = new Item($connection);
 $item->Code = $productcode;
