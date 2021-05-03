@@ -1,5 +1,5 @@
 {
-  "name": "polaris-dc/exact-online-connector",
+  "name": "polaris-dc/laravel-exact-online-connector",
   "description": "Laravel package for Exact Online API connections.",
   "require": {
     "php": "^7.4|^8.0",
