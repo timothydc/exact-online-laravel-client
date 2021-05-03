@@ -1,10 +1,10 @@
-# Exact Online Connector (Laravel package)
+# Laravel Exact Online Connector (Laravel package)
 This package includes routes for Exact authentication and allows for multithread safe access token refreshes.
 ## Installation
 Add the following line to the require section of your composer.json file:
 ```
 "require": {
-    "polaris-dc/exact-online-connector": "dev-master",
+    "polaris-dc/laravel-exact-online-connector": "dev-master",
     ...
 },
 ```
@@ -14,7 +14,7 @@ Add the private repository to the repositories section of your composer.json fil
 "repositories": [
     {
         "type" : "vcs",
-        "url" : "git@bitbucket.org:polaris-dc/exact-online-connector.git"
+        "url" : "git@bitbucket.org:polaris-dc/laravel-exact-online-connector.git"
     }
 ],
 ```
