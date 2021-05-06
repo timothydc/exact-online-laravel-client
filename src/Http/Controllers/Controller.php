@@ -1,6 +1,6 @@
 <?php
 
-namespace PolarisDC\Exact\ExactOnlineConnector\Http\Controllers;
+namespace PolarisDC\Laravel\ExactOnlineConnector\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

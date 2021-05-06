@@ -1,35 +1,38 @@
 <?php
 
-namespace PolarisDC\Exact\ExactOnlineConnector\Http\Controllers;
+namespace PolarisDC\Laravel\ExactOnlineConnector\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use PolarisDC\Exact\ExactOnlineConnector\ExactOnlineService;
+use PolarisDC\ExactOnlineConnector\ExactOnlineConnector;
+use PolarisDC\ExactOnlineConnector\Exceptions\ExactOnlineConnectorException;
 
 class ExactOnlineController extends Controller
 {
-
-    public function authorizeExactConnection(ExactOnlineService $service)
+    public function startAuthorization(ExactOnlineConnector $exactOnlineConnector): JsonResponse
     {
-        $service->authorizeClient();
+        $exactOnlineConnector->startAuthorization();
 
-        return 'De connectie met Exact is reeds geauthenticeerd!';
+        return response()->json(['status' => 'Connection was already authenticated.']);
     }
 
-    /**
-     * @param Request            $request
-     * @param ExactOnlineService $service
-     * @return string
-     */
-    public function callbackAuthorizeExactConnection(Request $request, ExactOnlineService $service)
+    public function completeAuthorization(Request $request, ExactOnlineConnector $exactOnlineConnector): JsonResponse
     {
-        $success = $service->finishAuthorizationClient($request->get('code'));
+        try {
+            if ($exactOnlineConnector->completeAuthorization($request->get('code') . 'fout')) {
+                return response()->json(['status' => 'Authentication completed.']);
+            }
+        } catch (ExactOnlineConnectorException $e) {
+            abort(500, $e->getMessage());
+        }
 
-        return $success ? 'De connectie met Exact is succesvol geauthenticeerd!' : 'De connectie met Exact is mislukt :( .';
+        abort(500, 'Unknown authentication error occurred.');
     }
 
-    public function disconnectExactConnection(ExactOnlineService $service)
+    public function disconnect(ExactOnlineConnector $exactOnlineConnector): JsonResponse
     {
-        $service->disconnectClient();
-        return 'De connectie met Exact is succesvol gedisconnect!';
+        $exactOnlineConnector->disconnect();
+
+        return response()->json(['status' => 'Connection was revoked.']);
     }
 }

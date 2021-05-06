@@ -3,8 +3,8 @@
   "description": "Laravel package for Exact Online API connections.",
   "require": {
     "php": "^7.4|^8.0",
-    "picqer/exact-php-client": "^3.26.0",
-    "illuminate/support": "^7.0|^8.0"
+    "illuminate/support": "^7.0|^8.0",
+    "polaris-dc/exact-online-connector": "dev-master"
   },
   "authors": [
     {
@@ -15,7 +15,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "PolarisDC\\Exact\\ExactOnlineConnector\\": "src"
+      "PolarisDC\\Laravel\\ExactOnlineConnector\\": "src"
     }
   },
   "config": {
@@ -24,13 +24,23 @@
   "extra": {
     "laravel": {
       "providers": [
-        "PolarisDC\\Exact\\ExactOnlineConnector\\ExactOnlineServiceProvider"
+        "PolarisDC\\Laravel\\ExactOnlineConnector\\ExactOnlineServiceProvider"
       ],
       "aliases": {
-        "ExactOnlineConnection": "PolarisDC\\Exact\\ExactOnlineConnector\\Facades\\ExactOnlineConnectionFacade"
+        "ExactOnlineConnection": "PolarisDC\\Laravel\\ExactOnlineConnector\\Facades\\ExactOnlineConnectionFacade"
       }
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "require-dev": {
+    "orchestra/testbench": "^6.17"
+  },
+  "repositories": [
+    {
+      "name": "polaris-dc/exact-online-connector",
+      "type": "vcs",
+      "url": "git@bitbucket.org:polaris-dc/exact-online-connector.git"
+    }
+  ]
 }
