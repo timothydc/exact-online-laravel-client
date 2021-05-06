@@ -47,10 +47,10 @@ class ExactOnlineServiceProvider extends ServiceProvider
                 $tokenVault->setStoragePath(Storage::disk($filesystemConfig['disk'])->path($filesystemConfig['path']));
             }
 
-            $connection = new ExactOnlineConnector($appInformation, $tokenVault);
-            $connection->setLogService($app->make('log'));
+            $exactOnlineConnector = new ExactOnlineConnector($appInformation, $tokenVault);
+            $exactOnlineConnector->setLogService($app->make('log'));
 
-            return $connection;
+            return $exactOnlineConnector;
         });
     }
 
