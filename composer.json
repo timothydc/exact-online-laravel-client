@@ -38,9 +38,8 @@
   },
   "repositories": [
     {
-      "name": "polaris-dc/exact-online-connector",
-      "type": "vcs",
-      "url": "git@bitbucket.org:polaris-dc/exact-online-connector.git"
+      "type": "composer",
+      "url": "https://packages.polaris-dc.app"
     }
   ]
 }
