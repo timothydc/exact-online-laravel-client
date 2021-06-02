@@ -1,14 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace PolarisDC\Exact\ExactOnlineConnector;
+namespace PolarisDC\ExactOnline\ExactOnlineClient;
+
 
 use Exception;
 use Illuminate\Contracts\Cache\Lock;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
 use Picqer\Financials\Exact\ApiException;
-use PolarisDC\Exact\ExactOnlineConnector\Models\OAuthToken;
+use PolarisDC\ExactOnline\ExactOnlineClient\Models\OAuthToken;
 
 class ExactOnlineService
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace PolarisDC\Exact\ExactOnlineConnector\Http\Controllers;
+namespace PolarisDC\ExactOnline\ExactOnlineClient\Http\Controllers;
 
 use Illuminate\Http\Request;
-use PolarisDC\Exact\ExactOnlineConnector\ExactOnlineService;
+use PolarisDC\ExactOnline\ExactOnlineClient\ExactOnlineService;
 
 class ExactOnlineController extends Controller
 {
