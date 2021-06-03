@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PolarisDC\Exact\ExactOnlineConnector;
+namespace PolarisDC\ExactOnline\ExactOnlineClient;
 
 use GuzzleHttp\Middleware;
 use Picqer\Financials\Exact\Connection as PicqerConnection;

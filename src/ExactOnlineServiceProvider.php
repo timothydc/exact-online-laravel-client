@@ -1,6 +1,7 @@
 <?php
 
-namespace PolarisDC\Exact\ExactOnlineConnector;
+namespace PolarisDC\ExactOnline\ExactOnlineClient;
+
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;

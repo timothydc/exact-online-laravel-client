@@ -1,5 +1,5 @@
 {
-  "name": "polaris-dc/laravel-exact-online-connector",
+  "name": "polaris-dc/exact-online-laravel-connector",
   "description": "Laravel package for Exact Online API connections.",
   "require": {
     "php": "^7.4|^8.0",
@@ -15,7 +15,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "PolarisDC\\Exact\\ExactOnlineConnector\\": "src"
+      "PolarisDC\\ExactOnline\\ExactOnlineClient\\": "src"
     }
   },
   "config": {
@@ -24,10 +24,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "PolarisDC\\Exact\\ExactOnlineConnector\\ExactOnlineServiceProvider"
+        "PolarisDC\\ExactOnline\\ExactOnlineClient\\ExactOnlineServiceProvider"
       ],
       "aliases": {
-        "ExactOnlineConnection": "PolarisDC\\Exact\\ExactOnlineConnector\\Facades\\ExactOnlineConnectionFacade"
+        "ExactOnlineConnection": "PolarisDC\\ExactOnline\\ExactOnlineClient\\Facades\\ExactOnlineConnectionFacade"
       }
     }
   },
