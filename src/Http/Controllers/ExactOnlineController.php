@@ -1,9 +1,10 @@
 <?php
 
-namespace PolarisDC\Laravel\ExactOnlineConnector\Http\Controllers;
+namespace PolarisDC\ExactOnline\ExactOnlineClient\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use PolarisDC\ExactOnline\ExactOnlineClient\ExactOnlineService;
 use PolarisDC\ExactOnlineConnector\ExactOnlineConnector;
 use PolarisDC\ExactOnlineConnector\Exceptions\ExactOnlineConnectorException;
 

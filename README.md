@@ -54,7 +54,7 @@ There are 3 routes available
 ### Dependency Injection
 You can get a thread safe connection via Dependency Injection.
 ```php
-use PolarisDC\Laravel\ExactOnlineConnector\Connection;
+use PolarisDC\ExactOnline\ExactOnlineClient\Connection;
 
 ...
 

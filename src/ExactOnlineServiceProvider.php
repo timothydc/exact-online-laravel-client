@@ -1,6 +1,6 @@
 <?php
 
-namespace PolarisDC\Laravel\ExactOnlineConnector;
+namespace PolarisDC\ExactOnline\ExactOnlineClient;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;

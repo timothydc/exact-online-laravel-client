@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use PolarisDC\Laravel\ExactOnlineConnector\Http\Controllers\ExactOnlineController;
+use PolarisDC\ExactOnline\ExactOnlineClient\Http\Controllers\ExactOnlineController;
 
 Route::get('authorize', [ExactOnlineController::class, 'startAuthorization'])->name('exact-online.authorize');
 Route::get('oauth', [ExactOnlineController::class, 'completeAuthorization'])->name('exact-online.callback');

@@ -1,6 +1,6 @@
 <?php
 
-namespace PolarisDC\Laravel\ExactOnlineConnector\Facades;
+namespace PolarisDC\ExactOnline\ExactOnlineClient\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
