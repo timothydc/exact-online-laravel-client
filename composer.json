@@ -1,6 +1,6 @@
 {
   "name": "polaris-dc/exact-online-laravel-client",
-  "description": "Laravel package for Exact Online API connections.",
+  "description": "EOL connector wrapper for the Laravel framework",
   "require": {
     "php": "^7.4|^8.0",
     "illuminate/support": "^7.0|^8.0",
@@ -9,7 +9,7 @@
   "authors": [
     {
       "name": "Maarten Waegeman",
-      "email": "maarten.waegeman@polaris-dc.com",
+      "email": "Maarten.Waegeman@polaris-dc.com",
       "role": "Developer"
     },
     {
