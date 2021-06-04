@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\ExactOnlineClient\Models;
+namespace PolarisDC\ExactOnline\LaravelClient\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|OAuthToken newModelQuery()
  * @method static Builder|OAuthToken newQuery()
  * @method static Builder|OAuthToken query()
+ * @method static Model updateOrCreate($array, $array)
  * @method static Builder|OAuthToken whereAccessToken($value)
  * @method static Builder|OAuthToken whereClientId($value)
  * @method static Builder|OAuthToken whereCreatedAt($value)
@@ -38,8 +38,8 @@ class OAuthToken extends Model
      */
     protected $table = 'oauth_tokens';
 
-    protected $dates = [
-        'expires_at',
+    protected $casts = [
+        'expires_at' => 'datetime',
     ];
 
     /**
@@ -48,10 +48,4 @@ class OAuthToken extends Model
      * @var array
      */
     protected $guarded = [];
-
-    public function setExpiresInAttribute($value)
-    {
-        $this->attributes['expires_at'] = Carbon::createFromTimestamp($value);
-        $this->attributes['expires_in'] = $value;
-    }
 }

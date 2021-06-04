@@ -1,27 +1,59 @@
 <?php
 
-namespace PolarisDC\ExactOnline\ExactOnlineClient;
+namespace PolarisDC\ExactOnline\LaravelClient;
 
-
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\ServiceProvider;
+use PolarisDC\ExactOnline\BaseClient\ClientConfiguration;
+use PolarisDC\ExactOnline\BaseClient\ExactOnlineClient;
+use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 
 class ExactOnlineServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->registerRoutes();
         $this->configurePublishing();
     }
 
-    public function register()
+    public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/exact-online-connector.php', 'exact-online');
+        $this->mergeConfigFrom(__DIR__ . '/../config/exact-online-client.php', 'exact-online');
 
-        $this->app->singleton(ExactOnlineService::class, fn () => new ExactOnlineService());
-        $this->app->singleton(Connection::class, fn ($app) => $app->make(ExactOnlineService::class)->getConnection());
+        $this->app->bind(TokenVaultInterface::class, static function ($app) {
+            $tokenVault = resolve(TokenVault::class);
+            $tokenVault->setClientId($app->make('config')['exact-online']['client_id']);
+            return $tokenVault;
+        });
 
-        //$this->app->singleton();
+        // todo not sure how we can use this for multi tenant setups
+        $this->app->singleton(ExactOnlineClient::class, static function ($app) {
+
+            $config = $app->make('config');
+
+            $appInformation = new ClientConfiguration(
+                $config['exact-online']['client_id'],
+                $config['exact-online']['client_secret'],
+                $config['exact-online']['client_webhook_secret'],
+                $config['exact-online']['redirect_url'],
+                $config['exact-online']['base_url'],
+                $config['exact-online']['division'],
+                $config['exact-online']['language_code'],
+            );
+
+            $tokenVault = $app->make(TokenVaultInterface::class);
+
+            if ($config['exact-online']['token_storage']['use_filesystem'] && method_exists($tokenVault, 'setStoragePath')) {
+                $filesystemConfig = $config['exact-online']['token_storage']['filesystem'];
+                $tokenVault->setStoragePath(Storage::disk($filesystemConfig['disk'])->path($filesystemConfig['path']));
+            }
+
+            $exactOnlineClient = new ExactOnlineClient($appInformation, $tokenVault);
+            $exactOnlineClient->setLogger($app->make('log'));
+
+            return $exactOnlineClient;
+        });
     }
 
     /**
@@ -29,27 +61,27 @@ class ExactOnlineServiceProvider extends ServiceProvider
      */
     protected function configurePublishing(): void
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
         $this->publishes([
-            __DIR__ . '/../config/exact-online-connector.php' => config_path('exact-online.php'),
-        ], ['exact-online-connector', 'exact-online-connector:config']);
+            __DIR__ . '/../config/exact-online-client.php' => config_path('exact-online.php'),
+        ], ['exact-online-client', 'exact-online-client:config']);
 
         $this->publishes([
             __DIR__ . '/../database/migrations/' => database_path('migrations'),
-        ], ['exact-online-connector', 'exact-online-connector:migrations']);
+        ], ['exact-online-client', 'exact-online-client:migrations']);
     }
 
     /**
      * Register the routes.
      */
-    protected function registerRoutes()
+    protected function registerRoutes(): void
     {
         Route::group([
-            'prefix'     => config('exact-online.route_prefix', 'exact-online'),
-            'middleware' => config('exact-online.route_middleware', ['web', 'auth']),
+            'prefix' => config('exact-online.routing.prefix'),
+            'middleware' => config('exact-online.routing.middleware'),
         ], function () {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
