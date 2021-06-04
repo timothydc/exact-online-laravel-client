@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\ExactOnlineClient\Models;
+namespace PolarisDC\ExactOnline\LaravelClient\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 

@@ -2,34 +2,36 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\Laravel\ExactOnlineConnector;
+namespace PolarisDC\ExactOnline\LaravelClient;
 
 use Illuminate\Support\Carbon;
-use PolarisDC\ExactOnlineConnector\Interfaces\TokenVaultInterface;
-use PolarisDC\Laravel\ExactOnlineConnector\Models\OAuthToken;
+use PolarisDC\ExactOnline\BaseClient\Authentication\AccessToken;
+use PolarisDC\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
+use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use PolarisDC\ExactOnline\LaravelClient\Models\OAuthToken;
 
 class TokenVault implements TokenVaultInterface
 {
     protected string $clientId;
 
-    public function store(string $accesToken, string $refreshToken, int $expiresAt): void
+    public function store(AccessTokenInterface $accessToken): void
     {
         OAuthToken::updateOrCreate([
             'client_id' => $this->clientId,
         ], [
-            'access_token' => $accesToken,
-            'refresh_token' => $refreshToken,
-            'expires_at' => Carbon::createFromTimestamp($expiresAt),
+            'access_token' => $accessToken->getAccessToken(),
+            'refresh_token' => $accessToken->getRefreshToken(),
+            'expires_at' => Carbon::createFromTimestamp($accessToken->getExpiresAt()),
         ]);
     }
 
-    public function retrieve(): array
+    public function retrieve(): AccessTokenInterface
     {
         $oauthToken = OAuthToken::whereClientId($this->clientId)->first();
 
         return $oauthToken
-            ? ['accessToken' => $oauthToken->access_token, 'refreshToken' => $oauthToken->refresh_token, 'expiresAt' => $oauthToken->expires_at->timestamp,]
-            : [];
+            ? $this->makeToken($oauthToken->access_token, $oauthToken->refresh_token, $oauthToken->expires_at->timestamp)
+            : $this->makeToken(null, null, 0);
     }
 
     public function remove(): void
@@ -41,5 +43,15 @@ class TokenVault implements TokenVaultInterface
     {
         $this->clientId = $clientId;
         return $this;
+    }
+
+    public function makeToken(?string $accesToken, ?string $refreshToken, int $expiresAt): AccessTokenInterface
+    {
+        return new AccessToken($accesToken, $refreshToken, $expiresAt);
+    }
+
+    public function clear(): void
+    {
+        OAuthToken::whereClientId($this->clientId)->update(['access_token' => null, 'refresh_token' => null, 'expires_at' => null]);
     }
 }

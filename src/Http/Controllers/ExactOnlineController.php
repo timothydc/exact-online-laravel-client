@@ -1,38 +1,54 @@
 <?php
 
-namespace PolarisDC\ExactOnline\ExactOnlineClient\Http\Controllers;
+namespace PolarisDC\ExactOnline\LaravelClient\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use PolarisDC\ExactOnline\ExactOnlineClient\ExactOnlineService;
-use PolarisDC\ExactOnlineConnector\ExactOnlineConnector;
-use PolarisDC\ExactOnlineConnector\Exceptions\ExactOnlineConnectorException;
+use Picqer\Financials\Exact\Item;
+use PolarisDC\ExactOnline\BaseClient\ExactOnlineClient;
+use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
+use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
 
-class ExactOnlineController extends Controller
+class ExactOnlineController
 {
-    public function startAuthorization(ExactOnlineConnector $exactOnlineConnector): JsonResponse
+    /**
+     * @throws ExactOnlineClientException
+     */
+    public function startAuthorization(ExactOnlineClient $client): JsonResponse
     {
-        $exactOnlineConnector->startAuthorization();
+        $client->startAuthorization();
 
         return response()->json(['status' => 'Connection was already authenticated.']);
     }
 
-    public function completeAuthorization(Request $request, ExactOnlineConnector $exactOnlineConnector): JsonResponse
+    public function completeAuthorization(Request $request, ExactOnlineClient $client)
     {
         try {
-            if ($exactOnlineConnector->completeAuthorization($request->get('code') . 'fout')) {
-                return response()->json(['status' => 'Authentication completed.']);
-            }
-        } catch (ExactOnlineConnectorException $e) {
+            $client->completeAuthorization($request->get('code'));
+
+            return redirect()->route('exact-online.test');
+
+        } catch (ExactOnlineClientException $e) {
             abort(500, $e->getMessage());
         }
 
         abort(500, 'Unknown authentication error occurred.');
     }
 
-    public function disconnect(ExactOnlineConnector $exactOnlineConnector): JsonResponse
+    /**
+     * @throws ExactOnlineClientException
+     * @throws AuthenticationException
+     */
+    public function test(ExactOnlineClient $client): JsonResponse
     {
-        $exactOnlineConnector->disconnect();
+        new Item($client->getConnection());
+
+        return response()->json('API connection successful.');
+    }
+
+    public function disconnect(ExactOnlineClient $client): JsonResponse
+    {
+        $client->disconnect();
 
         return response()->json(['status' => 'Connection was revoked.']);
     }

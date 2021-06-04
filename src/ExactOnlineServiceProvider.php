@@ -1,13 +1,13 @@
 <?php
 
-namespace PolarisDC\ExactOnline\ExactOnlineClient;
+namespace PolarisDC\ExactOnline\LaravelClient;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use PolarisDC\ExactOnlineConnector\Configs\AppInformation;
-use PolarisDC\ExactOnlineConnector\ExactOnlineConnector;
-use PolarisDC\ExactOnlineConnector\Interfaces\TokenVaultInterface;
+use PolarisDC\ExactOnline\BaseClient\ClientConfiguration;
+use PolarisDC\ExactOnline\BaseClient\ExactOnlineClient;
+use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 
 class ExactOnlineServiceProvider extends ServiceProvider
 {
@@ -19,38 +19,40 @@ class ExactOnlineServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/exact-online-connector.php', 'exact-online');
+        $this->mergeConfigFrom(__DIR__ . '/../config/exact-online-client.php', 'exact-online');
 
         $this->app->bind(TokenVaultInterface::class, static function ($app) {
-            $tokenVault = resolve(\PolarisDC\Laravel\ExactOnlineConnector\TokenVault::class);
-            $tokenVault->setClientId($app['config']['exact-online']['client_id']);
+            $tokenVault = resolve(TokenVault::class);
+            $tokenVault->setClientId($app->make('config')['exact-online']['client_id']);
             return $tokenVault;
         });
 
         // todo not sure how we can use this for multi tenant setups
-        $this->app->singleton(ExactOnlineConnector::class, static function ($app) {
+        $this->app->singleton(ExactOnlineClient::class, static function ($app) {
 
-            $appInformation = new AppInformation(
-                $app['config']['exact-online']['client_id'],
-                $app['config']['exact-online']['client_secret'],
-                $app['config']['exact-online']['client_webhook_secret'],
-                $app['config']['exact-online']['redirect_url'],
-                $app['config']['exact-online']['base_url'],
-                $app['config']['exact-online']['division'],
-                $app['config']['exact-online']['language_code'],
+            $config = $app->make('config');
+
+            $appInformation = new ClientConfiguration(
+                $config['exact-online']['client_id'],
+                $config['exact-online']['client_secret'],
+                $config['exact-online']['client_webhook_secret'],
+                $config['exact-online']['redirect_url'],
+                $config['exact-online']['base_url'],
+                $config['exact-online']['division'],
+                $config['exact-online']['language_code'],
             );
 
             $tokenVault = $app->make(TokenVaultInterface::class);
 
-            if ($app['config']['exact-online']['token_storage']['use_filesystem'] && method_exists($tokenVault, 'setStoragePath')) {
-                $filesystemConfig = $app['config']['exact-online']['token_storage']['filesystem'];
+            if ($config['exact-online']['token_storage']['use_filesystem'] && method_exists($tokenVault, 'setStoragePath')) {
+                $filesystemConfig = $config['exact-online']['token_storage']['filesystem'];
                 $tokenVault->setStoragePath(Storage::disk($filesystemConfig['disk'])->path($filesystemConfig['path']));
             }
 
-            $exactOnlineConnector = new ExactOnlineConnector($appInformation, $tokenVault);
-            $exactOnlineConnector->setLogService($app->make('log'));
+            $exactOnlineClient = new ExactOnlineClient($appInformation, $tokenVault);
+            $exactOnlineClient->setLogger($app->make('log'));
 
-            return $exactOnlineConnector;
+            return $exactOnlineClient;
         });
     }
 
@@ -64,12 +66,12 @@ class ExactOnlineServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/../config/exact-online-connector.php' => config_path('exact-online.php'),
-        ], ['exact-online-connector', 'exact-online-connector:config']);
+            __DIR__ . '/../config/exact-online-client.php' => config_path('exact-online.php'),
+        ], ['exact-online-client', 'exact-online-client:config']);
 
         $this->publishes([
             __DIR__ . '/../database/migrations/' => database_path('migrations'),
-        ], ['exact-online-connector', 'exact-online-connector:migrations']);
+        ], ['exact-online-client', 'exact-online-client:migrations']);
     }
 
     /**
