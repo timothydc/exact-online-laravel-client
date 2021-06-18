@@ -24,6 +24,10 @@ class ExactOnlineController
     public function completeAuthorization(Request $request, ExactOnlineClient $client)
     {
         try {
+            if (! $request->get('code')) {
+                return response()->json(['status' => 'No "code" received during callback from EOL. Authentication failed.']);
+            }
+
             $client->completeAuthorization($request->get('code'));
 
             return redirect()->route('exact-online.test');
