@@ -30,7 +30,7 @@ class TokenVault implements TokenVaultInterface
         $oauthToken = OAuthToken::whereClientId($this->clientId)->first();
 
         return $oauthToken
-            ? $this->makeToken($oauthToken->access_token, $oauthToken->refresh_token, $oauthToken->expires_at->timestamp)
+            ? $this->makeToken($oauthToken->access_token, $oauthToken->refresh_token, optional($oauthToken->expires_at)->timestamp)
             : $this->makeToken(null, null, 0);
     }
 
