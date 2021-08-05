@@ -52,6 +52,6 @@ class TokenVault implements TokenVaultInterface
 
     public function clear(): void
     {
-        OAuthToken::whereClientId($this->clientId)->update(['access_token' => null, 'refresh_token' => null, 'expires_at' => null]);
+        OAuthToken::whereClientId($this->clientId)->delete();
     }
 }
