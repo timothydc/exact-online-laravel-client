@@ -34,7 +34,7 @@ class TokenVault implements TokenVaultInterface
             : $this->makeToken(null, null, 0);
     }
 
-    public function remove(): void
+    public function remove(string $accessToken): void
     {
         OAuthToken::whereClientId($this->clientId)->delete();
     }
