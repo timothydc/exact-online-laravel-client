@@ -3,13 +3,12 @@
   "description": "EOL connector wrapper for the Laravel framework",
   "require": {
     "php": "^7.4|^8.0",
-    "illuminate/support": "^7.0|^8.0|^9.0",
+    "illuminate/support": "^7.0|^8.0|^9.0|^10.0|^11.0",
     "polaris-dc/exact-online-base-client": "^1.1"
   },
   "authors": [
     {
       "name": "Timothy De Cort",
-      "email": "Timothy.DeCort@polaris-dc.com",
       "role": "Developer"
     }
   ],
@@ -38,8 +37,8 @@
   },
   "repositories": [
     {
-      "type": "composer",
-      "url": "https://packages.polaris-dc.app"
+      "type": "vcs",
+      "url": "https://github.com/blobantwerp/exact-online-base-client.git"
     }
   ]
 }
