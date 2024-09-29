@@ -21,7 +21,7 @@ class TokenVault implements TokenVaultInterface
         ], [
             'access_token' => $accessToken->getAccessToken(),
             'refresh_token' => $accessToken->getRefreshToken(),
-            'expires_at' => Carbon::createFromTimestamp($accessToken->getExpiresAt(), config('app.timezone'))),
+            'expires_at' => Carbon::createFromTimestamp($accessToken->getExpiresAt(), config('app.timezone')),
         ]);
     }
 
