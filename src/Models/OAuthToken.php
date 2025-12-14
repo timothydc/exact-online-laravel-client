@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\LaravelClient\Models;
+namespace TimothyDC\ExactOnline\LaravelClient\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

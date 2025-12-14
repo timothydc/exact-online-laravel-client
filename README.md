@@ -10,14 +10,14 @@ Add these lines to your `composer.json`.
 "repositories": [
     {
         "type" : "composer",
-        "url" : "https://packages.polaris-dc.app"
+        "url" : "https://packages.timothydc.app"
     }
 ]
 ```
 
 Install the package via composer
 ```bash
-composer require polaris-dc/exact-online-laravel-client
+composer require timothydc/exact-online-laravel-client
 ```
 Add the private repository to the repositories section of your composer.json file:
 
@@ -62,7 +62,7 @@ Then you can use the Picqer library to CRUD Exact Online records.
 
 ```php
 use Picqer\Financials\Exact\Item;
-use PolarisDC\ExactOnline\BaseClient\ExactOnlineClient;
+use TimothyDC\ExactOnline\BaseClient\ExactOnlineClient;
 
 $exactOnlineClient = resolve(ExactOnlineClient::class);
 

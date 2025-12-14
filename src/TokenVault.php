@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PolarisDC\ExactOnline\LaravelClient;
+namespace TimothyDC\ExactOnline\LaravelClient;
 
 use Illuminate\Support\Carbon;
-use PolarisDC\ExactOnline\BaseClient\Authentication\AccessToken;
-use PolarisDC\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
-use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
-use PolarisDC\ExactOnline\LaravelClient\Models\OAuthToken;
+use TimothyDC\ExactOnline\BaseClient\Authentication\AccessToken;
+use TimothyDC\ExactOnline\BaseClient\Interfaces\AccessTokenInterface;
+use TimothyDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use TimothyDC\ExactOnline\LaravelClient\Models\OAuthToken;
 
 class TokenVault implements TokenVaultInterface
 {

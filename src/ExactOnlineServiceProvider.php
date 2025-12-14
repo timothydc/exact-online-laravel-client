@@ -1,13 +1,13 @@
 <?php
 
-namespace PolarisDC\ExactOnline\LaravelClient;
+namespace TimothyDC\ExactOnline\LaravelClient;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use PolarisDC\ExactOnline\BaseClient\ClientConfiguration;
-use PolarisDC\ExactOnline\BaseClient\ExactOnlineClient;
-use PolarisDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
+use TimothyDC\ExactOnline\BaseClient\ClientConfiguration;
+use TimothyDC\ExactOnline\BaseClient\ExactOnlineClient;
+use TimothyDC\ExactOnline\BaseClient\Interfaces\TokenVaultInterface;
 
 class ExactOnlineServiceProvider extends ServiceProvider
 {

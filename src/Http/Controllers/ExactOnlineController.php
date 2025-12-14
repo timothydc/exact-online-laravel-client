@@ -1,13 +1,13 @@
 <?php
 
-namespace PolarisDC\ExactOnline\LaravelClient\Http\Controllers;
+namespace TimothyDC\ExactOnline\LaravelClient\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Picqer\Financials\Exact\Item;
-use PolarisDC\ExactOnline\BaseClient\ExactOnlineClient;
-use PolarisDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
-use PolarisDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
+use TimothyDC\ExactOnline\BaseClient\ExactOnlineClient;
+use TimothyDC\ExactOnline\BaseClient\Exceptions\AuthenticationException;
+use TimothyDC\ExactOnline\BaseClient\Exceptions\ExactOnlineClientException;
 
 class ExactOnlineController
 {

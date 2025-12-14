@@ -1,10 +1,10 @@
 {
-  "name": "polaris-dc/exact-online-laravel-client",
+  "name": "timothydc/exact-online-laravel-client",
   "description": "EOL connector wrapper for the Laravel framework",
   "require": {
     "php": "^7.4|^8.0",
     "illuminate/support": "*",
-    "polaris-dc/exact-online-base-client": "^3.0"
+    "timothydc/exact-online-base-client": "^3.0"
   },
   "authors": [
     {
@@ -14,7 +14,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "PolarisDC\\ExactOnline\\LaravelClient\\": "src"
+      "TimothyDC\\ExactOnline\\LaravelClient\\": "src"
     }
   },
   "config": {
@@ -23,10 +23,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "PolarisDC\\ExactOnline\\LaravelClient\\ExactOnlineServiceProvider"
+        "TimothyDC\\ExactOnline\\LaravelClient\\ExactOnlineServiceProvider"
       ],
       "aliases": {
-        "ExactOnlineClient": "PolarisDC\\ExactOnline\\LaravelClient\\Facades\\ExactOnlineClientFacade"
+        "ExactOnlineClient": "TimothyDC\\ExactOnline\\LaravelClient\\Facades\\ExactOnlineClientFacade"
       }
     }
   },
