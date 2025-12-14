@@ -4,7 +4,7 @@
   "require": {
     "php": "^7.4|^8.0",
     "illuminate/support": "*",
-    "timothydc/exact-online-base-client": "^3.0"
+    "timothydc/exact-online-base-client": "^4.0"
   },
   "authors": [
     {
